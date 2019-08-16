@@ -1,30 +1,36 @@
+using System.Linq;
 using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PierreTreats.Models;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc.Rendering;
+//new code
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace PierreTreats.Controllers
 {
+    [Authorize]
     public class TreatsController : Controller
     {
         private readonly PierreTreatsContext _db;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public TreatsController (PierreTreatsContext db)
+        public TreatsController(PierreTreatsContext db, UserManager<ApplicationUser> usermanager)
         {
             _db = db;
+            _userManager = usermanager;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            Console.WriteLine("INDEX OF TrEAT CONTROLLER");
-            var model = _db.Treats.ToList();
-            Console.WriteLine(model.ToString());
-            return View(_db.Treats.ToList());
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var currentUser = await _userManager.FindByIdAsync(userId);
+            return View(_db.Treats.Where(x => x.User.Id == currentUser.Id).ToList()); //dont need toList here? where return list maybe.
         }
-        public ActionResult Details (int id)
+        public ActionResult Details(int id)
         {
             var model = _db.Treats
             .Include(treat => treat.FlavorTreats)
@@ -33,15 +39,18 @@ namespace PierreTreats.Controllers
             return View(model);
         }
 
-        public ActionResult Create ()
+        public ActionResult Create()
         {
             ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name");
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Treat treat)
+        public async Task<ActionResult> Create(Treat treat)
         {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var currentUser = await _userManager.FindByIdAsync(userId);
+            treat.User = currentUser;
             _db.Treats.Add(treat);
             _db.SaveChanges();
             return RedirectToAction("Index");
@@ -49,14 +58,14 @@ namespace PierreTreats.Controllers
 
         public ActionResult Edit(int id)
         {
-           ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name");
-           var thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
-           return View(thisTreat);
+            ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name");
+            var thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
+            return View(thisTreat);
         }
 
         [HttpPost]
         public ActionResult Edit(Treat treat)
-        {   
+        {
             _db.Entry(treat).State = EntityState.Modified;
             _db.SaveChanges();
             return RedirectToAction("Index");
@@ -69,7 +78,7 @@ namespace PierreTreats.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
-         
+
         public ActionResult DeleteConfirmed(int id)
         {
             var thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
