@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace PierreTreats.Models
 {
-  public class PierreTreatsContext : DbContext
+  public class PierreTreatsContext : IdentityDbContext<ApplicationUser>
   {
     // public virtual DbSet<Category> Categories { get; set; }
     // public DbSet<Item> Items { get; set; }
