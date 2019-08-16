@@ -38,7 +38,7 @@ namespace PierreTreats.Controllers
         public ActionResult Details(int id)
         {
             var thisFlavor = _db.Flavors
-            .Include(flavor => flavor.FlavorTreats)
+            .Include(flavor => flavor.Treats)
             .ThenInclude(join => join.Treat)
             .FirstOrDefault(flavor => flavor.FlavorId == id);
             return View(thisFlavor);
@@ -49,7 +49,7 @@ namespace PierreTreats.Controllers
             var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
             return View(thisFlavor);
         }
-        
+
         [HttpPost]
         public ActionResult Edit(Flavor flavor)
         {
@@ -73,5 +73,5 @@ namespace PierreTreats.Controllers
             return RedirectToAction("Index");
         }
     }
-    
+
 }

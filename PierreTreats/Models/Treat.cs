@@ -11,7 +11,7 @@ namespace PierreTreats.Models
 
         public string Name { get; set; }
 
-        public virtual ICollection<FlavorTreat> FlavorTreats { get; set; }
+        public virtual ICollection<FlavorTreat> Flavors { get; set; }
 
         public virtual ApplicationUser User { get; set; }
     }

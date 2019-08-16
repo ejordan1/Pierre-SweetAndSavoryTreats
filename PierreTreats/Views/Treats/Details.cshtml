@@ -8,7 +8,7 @@
 <hr />
 <h3>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)</h3>
 
-@if(@Model.FlavorTreats.Count == 0)
+@if(@Model.Flavors.Count == 0)
 {
   <p>This treat does not belong to any Flavors</p>
 }
@@ -16,10 +16,10 @@ else
 {
   <h4>Flavors the treat belongs to:</h4>
    <ul>
-  @foreach(var join in Model.FlavorTreats)
+  @foreach(var join in Model.Flavors)
   {
     <li>@join.Flavor.Name</li>
-    @using (Html.BeginForm("DeleteCategory", "Items"))
+    @using (Html.BeginForm("Delete Flavor", "Items"))
     {
       @Html.Hidden("joinId", @join.FlavorTreatId)
       <input type="submit" value="Delete"/>
@@ -30,5 +30,5 @@ else
 
 <p>@Html.ActionLink("Back to list", "Index")</p>
 <p>@Html.ActionLink("Edit Item", "Edit", new { id = Model.TreatId })</p>
-<p>@Html.ActionLink("Add a Category", "AddCategory", new { id = Model.TreatId })</p>
+<p>@Html.ActionLink("Add a Flavor", "AddFlavor", new { id = Model.TreatId })</p>
 <p>@Html.ActionLink("Delete Item", "Delete", new { id = Model.TreatId })</p>
