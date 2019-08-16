@@ -7,7 +7,7 @@ namespace PierreTreats.Models
     {
         public int TreatId {get; set;}
 
-        public string TreatName {get; set;}
+        public string Name {get; set;}
 
         public virtual ICollection<FlavorTreat> FlavorTreats {get; set;}
     }

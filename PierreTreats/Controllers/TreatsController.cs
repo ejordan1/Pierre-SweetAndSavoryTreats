@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PierreTreats.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PierreTreats.Controllers
 {
@@ -18,8 +19,10 @@ namespace PierreTreats.Controllers
 
         public ActionResult Index()
         {
-            var model = _db.Treats;
-            return View(model);
+            Console.WriteLine("INDEX OF TrEAT CONTROLLER");
+            var model = _db.Treats.ToList();
+            Console.WriteLine(model.ToString());
+            return View(_db.Treats.ToList());
         }
         public ActionResult Details (int id)
         {
@@ -32,6 +35,7 @@ namespace PierreTreats.Controllers
 
         public ActionResult Create ()
         {
+            ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name");
             return View();
         }
 
@@ -45,6 +49,7 @@ namespace PierreTreats.Controllers
 
         public ActionResult Edit(int id)
         {
+           ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name");
            var thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
            return View(thisTreat);
         }
