@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PierreTreats.Models;
-//new code
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
@@ -18,17 +17,21 @@ namespace PierreTreats.Controllers
         private readonly PierreTreatsContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
 
+    
         public TreatsController(PierreTreatsContext db, UserManager<ApplicationUser> usermanager)
         {
             _db = db;
             _userManager = usermanager;
         }
 
+
+        [AllowAnonymous]
         public async Task<ActionResult> Index()
         {
-
             return View(_db.Treats.ToList()); //dont need toList here? where return list maybe.
         }
+
+        [AllowAnonymous]
         public ActionResult Details(int id)
         {
             var model = _db.Treats

@@ -1,12 +1,13 @@
-using System;
-using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PierreTreats.Models;
-using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace PierreTreats.Controllers
 {
+    [Authorize]
     public class FlavorsController : Controller
     {
         private readonly PierreTreatsContext _db;
@@ -16,6 +17,7 @@ namespace PierreTreats.Controllers
             _db = db;
         }
 
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var model = _db.Flavors.ToList();
@@ -35,6 +37,7 @@ namespace PierreTreats.Controllers
             return RedirectToAction("index");
         }
 
+        [AllowAnonymous]
         public ActionResult Details(int id)
         {
             var thisFlavor = _db.Flavors

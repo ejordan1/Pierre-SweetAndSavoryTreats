@@ -5,6 +5,11 @@ namespace PierreTreats.Models
 {
     public class Flavor
     {
+
+        public Flavor()
+        {
+            Treats = new HashSet<FlavorTreat>();
+        }
         public int FlavorId { get; set; }
 
         public string Name { get; set; }
