@@ -6,7 +6,7 @@
 
 ## Description
 
-_This program allows a user to login to manage flavors and treats using an sql many to many relationships._
+_This program allows a user to login to manage flavors and treats using an sql many to many relationships. Site owners can create, update, and delete the items; anonymous users can view items._
 
 ## Setup/Installation Requirements
 
