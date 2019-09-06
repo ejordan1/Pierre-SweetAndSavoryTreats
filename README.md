@@ -1,4 +1,4 @@
-# _Hair Salon_
+# _Pierre Treats and Sweets_
 
 #### _This is a program for managing flavors and treats of Pierre's bakery_
 
