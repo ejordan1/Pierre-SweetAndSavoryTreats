@@ -10,11 +10,11 @@
 
 @if(@Model.Treats.Count == 0)
 {
-  <p>This Flavor does not contain any items</p>
+  <p>This Flavor does not contain any treats</p>
 }
 else
 {
-  <h4>Items the Flavor contains:</h4>
+  <h4>Treats the Flavor contains:</h4>
   <ul>
   @foreach(var join in Model.Treats)
   {
